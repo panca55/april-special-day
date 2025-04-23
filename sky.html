@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Langit Harapan 🌌</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            night: '#0b1d3a',
+            star: '#ffd700',
+          },
+          fontFamily: {
+            cute: ['"Dancing Script"', 'cursive'],
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <style>
+    .star {
+      position: absolute;
+      border-radius: 50%;
+      background: #ffd700;
+      box-shadow: 0 0 8px #ffd700;
+      cursor: pointer;
+    }
+
+    .tooltip {
+      position: absolute;
+      background: white;
+      color: black;
+      padding: 6px 10px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 20;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+      z-index: 50;
+    }
+
+    .modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content {
+      background: white;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-content h2 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+    }
+
+    .modal-content p {
+      font-size: 1rem;
+      margin-bottom: 20px;
+    }
+
+    .modal-content button {
+      background: #f6c1d1;
+      color: #0b1d3a;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .modal-content button:hover {
+      background: #e0929b;
+    }
+  </style>
+</head>
+<body class="bg-night text-white font-cute overflow-hidden min-h-screen relative">
+
+  <h1 class="text-4xl text-center pt-6 mb-4">Langit Harapan 🌟</h1>
+  <p class="text-center mb-8">Klik di langit untuk menambahkan bintang & harapanmu 🌠</p>
+
+  <div id="sky" class="absolute inset-0 z-0 cursor-crosshair"></div>
+  <div id="tooltip" class="tooltip"></div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2>Harapanmu 🌠</h2>
+      <p id="modal-text"></p>
+      <button id="close-modal">Tutup</button>
+    </div>
+  </div>
+
+  <!-- Back Button -->
+  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 z-10">
+    <a href="index.html" class="bg-white text-night px-6 py-2 rounded-full shadow hover:bg-yellow-100 transition">
+      Kembali ke Awal 🏡
+    </a>
+  </div>
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-analytics.js";
+    import { getDatabase, ref, push, set } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+    const firebaseConfig = {
+      apiKey: "AIzaSyB9qNqfDYcpfx_5C6GAZ3PgpsvIFCD356E",
+      authDomain: "april-special-day.firebaseapp.com",
+      projectId: "april-special-day",
+      storageBucket: "april-special-day.appspot.com",
+      messagingSenderId: "837442085881",
+      appId: "1:837442085881:web:318e596b1cd1cba86a9328",
+      measurementId: "G-E0857BXXTY"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const database = getDatabase(app);
+
+    window.firebaseDatabase = database;
+    window.firebaseRef = ref;
+    window.firebasePush = push;
+    window.firebaseSet = set;
+  </script>
+
+  <script type="module">
+    import { onValue } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";
+    const sky = document.getElementById('sky');
+    const wishesRef = firebaseRef(firebaseDatabase, 'wishes');
+    const tooltip = document.getElementById('tooltip');
+    const modal = document.getElementById('modal');
+    const modalText = document.getElementById('modal-text');
+    const closeModal = document.getElementById('close-modal');
+    const wishes = [];
+    onValue(wishesRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        Object.values(data).forEach(({ wish, x, y }) => {
+          const star = document.createElement('div');
+          star.className = 'star';
+          const size = Math.random() * 10 + 5;
+          star.style.width = `${size}px`;
+          star.style.height = `${size}px`;
+          star.style.left = `${x}px`;
+          star.style.top = `${y}px`;
+          star.dataset.wish = wish;
+
+          star.addEventListener('mouseenter', (event) => {
+            tooltip.innerText = wish;
+            tooltip.style.left = `${event.clientX + 10}px`;
+            tooltip.style.top = `${event.clientY - 10}px`;
+            tooltip.style.opacity = 1;
+          });
+
+          star.addEventListener('mousemove', (event) => {
+            tooltip.style.left = `${event.clientX + 10}px`;
+            tooltip.style.top = `${event.clientY - 10}px`;
+          });
+
+          star.addEventListener('mouseleave', () => {
+            tooltip.style.opacity = 0;
+          });
+
+          star.addEventListener('click', (event) => {
+            event.stopPropagation();
+            modalText.innerText = wish;
+            modal.classList.add('active');
+          });
+
+          sky.appendChild(star);
+        });
+      }
+    });
+    sky.addEventListener('click', (e) => {
+      const wish = prompt('Apa harapanmu? ✨');
+      if (!wish || wish.trim() === '') return; // Validasi input kosong
+
+      const star = document.createElement('div');
+      star.className = 'star';
+
+      // Ukuran bintang acak
+      const size = Math.random() * 10 + 5; // Ukuran antara 5px hingga 15px
+      star.style.width = `${size}px`;
+      star.style.height = `${size}px`;
+
+      // Posisi bintang
+      const rect = sky.getBoundingClientRect();
+      const x = e.clientX - rect.left - size / 2;
+      const y = e.clientY - rect.top - size / 2;
+      star.style.left = `${x}px`;
+      star.style.top = `${y}px`;
+
+      star.dataset.wish = wish;
+
+      firebasePush(firebaseRef(firebaseDatabase, 'wishes'), {
+        wish,
+        x,
+        y,
+        timestamp: Date.now()
+      });
+      // Event hover untuk tooltip
+      star.addEventListener('mouseenter', (event) => {
+        tooltip.innerText = wish;
+        tooltip.style.left = `${event.clientX + 10}px`;
+        tooltip.style.top = `${event.clientY - 10}px`;
+        tooltip.style.opacity = 1;
+      });
+
+      star.addEventListener('mousemove', (event) => {
+        tooltip.style.left = `${event.clientX + 10}px`;
+        tooltip.style.top = `${event.clientY - 10}px`;
+      });
+
+      star.addEventListener('mouseleave', () => {
+        tooltip.style.opacity = 0;
+      });
+
+      // Event klik untuk menampilkan modal
+      star.addEventListener('click', (event) => {
+        event.stopPropagation(); // Mencegah event click pada sky
+        modalText.innerText = wish;
+        modal.classList.add('active');
+      });
+
+      sky.appendChild(star);
+      wishes.push({ wish, x, y });
+    });
+
+    // Tutup modal
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
