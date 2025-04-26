@@ -4,203 +4,160 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ulang Tahun yang Istimewa</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: #0b1d3a;
-      font-family: 'Dancing Script', cursive;
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    .container {
-      perspective: 1200px;
-      width: 320px;
-      height: 240px;
-      position: relative;
-    }
-
-    .envelope {
-      width: 340px;
-      height: 300px;
-      position: relative;
-      transform-style: preserve-3d;
-      transition: transform 1s ease, z-index 0.5s ease;
-      z-index: 2; /* Default z-index */
-    }
-
-    .envelope.opened {
-      transform: rotateX(0deg);
-      z-index: 1; /* Move envelope to the back */
-    }
-
-    .front {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: #aeee;
-      border-radius: 10px;
-      transform-style: preserve-3d;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      overflow: hidden;
-      z-index: 3;
-    }
-
-    .front-text {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #0b1d3a;
-      text-align: center;
-      z-index: 5;
-      transform: translateZ(10px);
-      text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-    }
-
-    .flap {
-      position: absolute;
-      width: 320px;
-      height: 160px;
-      background-color: rgba(249, 253, 253, 0.933);
-      top: -150px;
-      z-index: 4;
-      transform-origin: bottom;
-      transform: rotateX(180deg);
-      transition: transform 0.6s ease;
-      clip-path: polygon(0 100%, 50% 40%, 100% 100%);
-      border-radius: 10px 10px 0 0;
-    }
-
-    .envelope.opened .flap {
-      transform: rotateX(180deg);
-    }
-
-    .back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background-color: #aeee;
-      border-radius: 10px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-      z-index: 1;
-    }
-
-    .letter {
-      position: absolute;
-      width: fit-content;
-      height: fit-content;
-      background-color: white;
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      z-index: 0; /* Default z-index */
-      transform: translateY(10px);
-      transition: transform 0.8s ease 0.3s, z-index 0.5s ease;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .envelope.opened .letter {
-      transform: translateY(-120px) scale(1.1);
-      z-index: 3; /* Bring letter to the front */
-    }
-
-    .letter-content {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .letter-title {
-      font-size: 1.8rem;
-      font-weight: bold;
-      color: #e0929b;
-      margin-bottom: 10px;
-    }
-
-    .letter-body {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1rem;
-      line-height: 1.4;
-      color: #0b1d3a;
-      margin-bottom: 15px;
-    }
-
-    .button {
-      display: inline-block;
-      background-color: #f6c1d1;
-      padding: 10px 25px;
-      border-radius: 20px;
-      font-weight: bold;
-      text-transform: uppercase;
-      color: #0b1d3a;
-      text-decoration: none;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-      transition: background-color 0.3s ease, transform 0.3s ease;
-      font-size: 0.9rem;
-      margin-top: 10px;
-    }
-
-    .button:hover {
-      background-color: #e0929b;
-      transform: scale(1.05);
-    }
-
-    .instructions {
-      position: absolute;
-      bottom: 20px;
-      text-align: center;
-      font-family: Arial, sans-serif;
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.7);
-      width: 100%;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css" />
+  
 </head>
 <body>
-  <div class="container">
-    <div class="envelope" id="envelope">
-      <div class="front" id="front">
-        <div class="front-text">Surat untukmu</div>
-        <div class="flap"></div>
-      </div>
-      <div class="back"></div>
-      <div class="letter">
-        <div class="letter-content">
-          <div>
-            <div class="letter-title">Selamat Ulang Tahun!</div>
-            <div class="letter-body">
-              April selamat ulang tahun ya! Semoga dimulai dari hari yang spesial ini, semesta selalu memberikan semua kehangatan dan kebahagiaan untukmu, sehingga senyuman indah itu selalu menghiasi wajahmu, dan semoga semua impianmu terwujud yaa. Aamiin... 
-            </div>
-        </div>
-        <a href="sky.html" class="button">Klik ini yaa <i class="fas fa-heart"></i></a>
-        </div>
-      </div>
+  <section class="cssletter">
+  <div class="envelope">
+    <button class="heart" id="openEnvelope" aria-label="Open Envelope">
+      <span class="heart-text">Open</span>
+    </button>
+    <div class="envelope-flap"></div>
+    <div class="envelope-folds">
+      <div class="envelope-left"></div>
+      <div class="envelope-right"></div>
+      <div class="envelope-bottom"></div>
     </div>
   </div>
+  <div class="letters">
 
-  <div class="instructions">Klik amplop untuk membukanya</div>
+    <blockquote class="letter center" id="1" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Amelia's letter">Close Amelia's letter</button>
+      <p>From the moment our paths intertwined, you filled my days with laughter and my nights with sweet dreams. Your love is a constant melody that plays softly in my heart, making every moment magical.</p>
+      <cite>Amelia Rose</cite>
+      <button>klik</button>
+    </blockquote>
 
-  <script>
-    document.getElementById('front').addEventListener('click', function () {
-      document.getElementById('envelope').classList.add('opened');
-    });
-  </script>
+    <blockquote class="letter center" id="2" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Oliver's letter">Close Oliver's letter</button>
+      <p>Every shared glance and whispered secret adds another verse to our endless love song. You make even the simplest moments sparkle with joy and wonder, as if we’re living in our very own romantic film.</p>
+      <cite>Oliver James</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="3" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Isabella's letter">Close Isabella's letter</button>
+      <p>In your arms, I find both comfort and adventure. You are the calm in my storm and the spark that ignites my passion, turning every day into a delightful escapade full of surprises.</p>
+      <cite>Isabella Grace</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="4" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close William's letter">Close William's letter</button>
+      <p>Your love is as sweet as a box of chocolates and as playful as a cheeky wink. With you, life is a joyful celebration of every little delight—and a few silly moments that make me grin from ear to ear.</p>
+      <cite>William Arthur</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="5" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Charlotte's letter">Close Charlotte's letter</button>
+      <p>Every day with you feels like a page from a romantic novel, where laughter, tender moments, and unexpected surprises blend into a story I never want to end. I cherish our every adventure together.</p>
+      <cite>Charlotte Mae</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="6" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Henry's letter">Close Henry's letter</button>
+      <p>Your heart is the cosy haven where mine finds solace. Together, we create a whimsical world where every silly moment is treasured and every loving gesture becomes a masterpiece.</p>
+      <cite>Henry Oliver</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="7" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Sophia's letter">Close Sophia's letter</button>
+      <p>I love the way you light up my life like a burst of glitter on a gloomy day. Your quirky humour and boundless affection make every moment feel like a special celebration.</p>
+      <cite>Sophia Lily</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="8" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close James's letter">Close James's letter</button>
+      <p>Your love is like a warm embrace on a chilly day—a constant reminder that home is wherever we are together. I am forever grateful for your tender care and kind heart.</p>
+      <cite>James Edward</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="9" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Victoria's letter">Close Victoria's letter</button>
+      <p>Every beat of my heart sings a serenade for you, celebrating a love that is as deep as the ocean and as whimsical as a fairytale. Life with you is simply enchanting.</p>
+      <cite>Victoria Rose</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="10" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Edward's letter">Close Edward's letter</button>
+      <p>With you, even the most ordinary moment transforms into an extraordinary memory. Your laughter is the music that fills my soul with endless delight and wonder.</p>
+      <cite>Edward James</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="11" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Alice's letter">Close Alice's letter</button>
+      <p>You are the spark that brightens my darkest days and the gentle whisper that soothes my restless nights. Our love is a beautiful blend of passion, tenderness, and a touch of playful mischief.</p>
+      <cite>Alice Victoria</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="12" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Freya's letter">Close Freya's letter</button>
+      <p>In a world that often feels chaotic, your love is my sanctuary. Your silly jokes and heartfelt hugs remind me every day that life is a precious adventure worth celebrating.</p>
+      <cite>Freya Jane</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="13" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Noah's letter">Close Noah's letter</button>
+      <p>Every moment spent with you is a delightful mixture of sweet romance and light-hearted fun. I treasure every shared smile and every spontaneous burst of laughter we enjoy.</p>
+      <cite>Noah Benjamin</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="14" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Grace's letter">Close Grace's letter</button>
+      <p>The magic in your eyes outshines the stars, and your laughter is a symphony that brightens even the dullest days. I adore you beyond what words can capture.</p>
+      <cite>Grace Evelyn</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="15" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Samuel's letter">Close Samuel's letter</button>
+      <p>With every shared smile and every gentle caress, you remind me that love can be both profoundly tender and wonderfully silly. Thank you for being my endless source of joy.</p>
+      <cite>Samuel Finn</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="16" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Ivy's letter">Close Ivy's letter</button>
+      <p>You are the whimsical spark that turns every mundane moment into a celebration of laughter and love. Our bond feels like an enchanting midnight dance under a silver moon.</p>
+      <cite>Ivy Scarlett</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="17" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Alexander's letter">Close Alexander's letter</button>
+      <p>Every whispered secret and shared giggle weaves the tapestry of our extraordinary love story. I remain utterly smitten by your charm and playful spirit.</p>
+      <cite>Alexander Jude</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="18" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Rose's letter">Close Rose's letter</button>
+      <p>Your love is a gentle breeze on a summer’s day, reminding me that even the smallest moments can be filled with magic and wonder. I adore you more than words can say.</p>
+      <cite>Rose Amelia</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="19" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Lucas's letter">Close Lucas's letter</button>
+      <p>In your embrace, I find both a safe haven and a thrilling adventure. Your laughter, full of light and mischief, makes my heart soar with happiness every single day.</p>
+      <cite>Lucas Matthew</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="20" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Elise's letter">Close Elise's letter</button>
+      <p>Our love is a blend of deep affection and cheeky humour—a unique cocktail that brightens my days and warms my nights. I’m madly in love with every quirky bit of you.</p>
+      <cite>Elise Marion</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="21" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Julian's letter">Close Julian's letter</button>
+      <p>Every day with you is a celebration of love, laughter, and the delightful surprises that make life so extraordinary. You truly are my favourite person—both silly and sweet.</p>
+      <cite>Julian Oscar</cite>
+    </blockquote>
+
+    <blockquote class="letter center" id="22" tabindex="0" style="left: 390px;">
+      <button class="closeLetter" title="Close Elena's letter">Close Elena's letter</button>
+      <p>With every beat of my heart, I fall deeper in love with you—treasuring every silly smile and tender moment. You are my forever valentine, and I will cherish you always.</p>
+      <cite>Elena Claire</cite>
+    </blockquote>
+
+  </div>
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>
